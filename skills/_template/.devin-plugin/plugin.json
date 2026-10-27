@@ -1,0 +1,6 @@
+{
+  "name": "<目录名>",
+  "version": "<x.y.z>",
+  "description": "<summary_en>",
+  "author": { "name": "<姓名>", "email": "<邮箱>" }
+}

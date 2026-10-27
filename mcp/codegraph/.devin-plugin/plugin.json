@@ -1,0 +1,8 @@
+{
+  "name": "codegraph",
+  "version": "1.2.1",
+  "description": "Installer that wires CodeGraph (single binary, no Docker) into your agent as a code knowledge graph MCP server. Run install.sh inside this plugin; the MCP entry lands in ~/.config/devin/mcp_config.json.",
+  "author": { "name": "Argon Cheng", "email": "argon_cheng@sercomm.com" },
+  "repository": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE",
+  "keywords": ["mcp", "codegraph", "knowledge-graph"]
+}

@@ -1,0 +1,37 @@
+#!/bin/bash
+# Host-side `gitnexus` shim: forward every call into the GitNexus Docker container.
+#
+# Why: `gitnexus analyze` drops .gitnexus/run.cjs into the repo, and the generated
+# AGENTS.md / skills tell the agent to run `node .gitnexus/run.cjs <cmd>`. run.cjs
+# resolves a runner on PATH (global `gitnexus` -> pnpm dlx -> bunx -> npx); with no
+# `gitnexus` on PATH it falls through to `pnpm dlx gitnexus@latest`, i.e. it runs a
+# throwaway copy on the HOST instead of the container that actually holds the index.
+# Putting this shim on PATH makes run.cjs pick mode=gitnexus and land in the container.
+#
+# 项目以身份映射挂载（宿主机路径 == 容器内路径），所以宿主绝对路径可以直接透传，
+# 不需要任何路径改写；linked worktree 的 `.git` 文件里是宿主绝对路径，也因此天然可解析。
+set -euo pipefail
+
+CT_NAME="gitnexus_$(id -un)"
+PROJECT_LIST="${HOME}/.gitnexus/project_list.txt"
+
+docker ps --format '{{.Names}}' | grep -qx "${CT_NAME}" || {
+    echo "gitnexus: container ${CT_NAME} is not running (start it with: gitnexus-start.sh start)" >&2
+    exit 1
+}
+
+# 在调用处所在目录运行，保证裸 `.` / 相对路径与生成的文档一致，无论从哪个子目录调用。
+# cwd 不在任何已挂载项目内时退回 /，避免 docker exec 因 chdir 失败。
+# 注意：镜像里并没有 /workspace —— 它以前只是被旧挂载方案顺带创建出来的目录。
+cwd="$(pwd -P)"
+workdir=/
+if [ -f "${PROJECT_LIST}" ]; then
+    while IFS= read -r proj; do
+        [ -n "${proj}" ] || continue
+        case "${cwd}" in
+            "${proj}"|"${proj}"/*) workdir="${cwd}"; break ;;
+        esac
+    done < "${PROJECT_LIST}"
+fi
+
+exec docker exec -i -u "$(id -u):$(id -g)" -w "${workdir}" "${CT_NAME}" gitnexus "$@"

@@ -1,0 +1,4 @@
+repo: http://172.21.1.202:8090/ai-tools/jira-worklog
+ref: master
+commit: 1cf51396983d728f55c6b94f312c437af16c8255
+updated_at: 2026-10-24T06:51:39+0800

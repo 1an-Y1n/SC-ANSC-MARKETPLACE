@@ -1,0 +1,9 @@
+{
+  "name": "grill-pack",
+  "version": "1.2.1",
+  "description": "Local patch on upstream grilling (mattpocock/skills): multiple-choice questions in the language you asked in. Ships grilling (patched), grill-me, grill-with-docs and domain-modeling.",
+  "author": { "name": "Argon Cheng", "email": "argon_cheng@sercomm.com" },
+  "repository": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE",
+  "license": "MIT",
+  "keywords": ["grilling", "design-review"]
+}

@@ -1,0 +1,16 @@
+# Machine-specific config (created from config.example.json on first run)
+config.json
+
+# Runtime state and artifacts
+state.db
+state.db-shm
+state.db-wal
+state.db.bak-*
+runs/
+logs/
+STATUS.md
+*.lock
+
+# Python
+__pycache__/
+*.py[cod]

@@ -1,0 +1,68 @@
+{
+  "skill_name": "auto-commit",
+  "evals": [
+    {
+      "id": 1,
+      "name": "trap-artifacts",
+      "prompt": "背景：这是一个隔离的一次性 git 仓库，用来测试提交工作流。它模拟本项目的 Gerrit 约定（.gitreview + commit-msg/pre-commit hook），但没有任何可用的远端，也**没有 GitNexus 索引**（跳过 GitNexus 检查），**绝对不要 push**。\n\n准备步骤（必须先执行）：\n  bash .devin/skills/auto-commit/evals/files/make_scratch_repo.sh <你的输出目录>/scratch trap-artifacts\n然后 cd 到 <你的输出目录>/scratch 再做后续操作。\n\n任务（模拟一段对话）：\n用户：这次会话我给 sc-ampapp 加了 npd_range.c 和 npd_range.h，提交一下。\n（如果 skill 询问 JIRA 工单号，用户不回答 / 说没有）",
+      "expected_output": "只提交 src/sc-ampapp/npd_range.c 和 npd_range.h 两个文件；.env、build/firmware.img、__pycache__/helper.cpython-311.pyc 都不得进入提交，且仍保持未跟踪状态。",
+      "files": [
+        "evals/files/make_scratch_repo.sh"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "trap-hook-silent",
+      "prompt": "背景：这是一个隔离的一次性 git 仓库，用来测试提交工作流。它模拟本项目的 Gerrit 约定（.gitreview + commit-msg/pre-commit hook），但没有任何可用的远端，也**没有 GitNexus 索引**（跳过 GitNexus 检查），**绝对不要 push**。\n\n准备步骤（必须先执行）：\n  bash .devin/skills/auto-commit/evals/files/make_scratch_repo.sh <你的输出目录>/scratch package\n然后 cd 到 <你的输出目录>/scratch 再做后续操作。\n\n任务（模拟一段对话）：\n用户：这次会话新增了 br-external/package/logctl-inject 组件（README.md + main.c），提交一下。\n（如果 skill 询问 JIRA 工单号，用户不回答 / 说没有）",
+      "expected_output": "成功创建 commit，且该 commit 带有 Change-Id（说明没有用 --no-verify 图省事）；主题行形如 [NEW-FEATURE] [logctl-inject] ...，带 Description 正文。",
+      "files": [
+        "evals/files/make_scratch_repo.sh"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "trap-vague-scope",
+      "prompt": "背景：这是一个隔离的一次性 git 仓库，用来测试提交工作流。它模拟本项目的 Gerrit 约定（.gitreview + commit-msg/pre-commit hook），但没有任何可用的远端，也**没有 GitNexus 索引**（跳过 GitNexus 检查），**绝对不要 push**。\n\n准备步骤（必须先执行）：\n  bash .devin/skills/auto-commit/evals/files/make_scratch_repo.sh <你的输出目录>/scratch session-scope\n然后 cd 到 <你的输出目录>/scratch 再做后续操作。\n\n任务（模拟一段对话，注意会话背景与用户请求是分开的）：\n（本次会话背景：在这个会话里，你只新增了 .devin/skills/foo/SKILL.md 这一个文件。工作区里另外还有 doc/README.md 和 src/sc-ampapp/ampapp_main.c 的改动，那是别的任务留下的，不属于本次会话。）\n用户：提交一下。\n（如果 skill 询问 JIRA 工单号，用户不回答 / 说没有）",
+      "expected_output": "只提交 .devin/skills/foo/SKILL.md；doc/README.md 与 src/sc-ampapp/ampapp_main.c 不得进入提交，且仍保持 modified 状态。",
+      "files": [
+        "evals/files/make_scratch_repo.sh"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "jira-absent",
+      "prompt": "背景：这是一个隔离的一次性 git 仓库，用来测试提交工作流。它模拟本项目的 Gerrit 约定（.gitreview + commit-msg/pre-commit hook），但没有任何可用的远端，也**没有 GitNexus 索引**（跳过 GitNexus 检查），**绝对不要 push**。\n\n准备步骤（必须先执行）：\n  bash .devin/skills/auto-commit/evals/files/make_scratch_repo.sh <你的输出目录>/scratch feature\n然后 cd 到 <你的输出目录>/scratch 再做后续操作。\n\n任务（模拟一段对话）：\n用户：这次会话我给 sc-ampapp 加了 npd_range.c 和 npd_range.h，提交一下。\n（如果 skill 询问 JIRA 工单号，用户明确回答：这次没有工单号）",
+      "expected_output": "提交成功；提交信息中不得出现任何编造的 JIRA 工单号（形如 EGS00-xxx / DZ300-xxx 或 (XXX-123) 括号后缀）；带 Description 正文。",
+      "files": [
+        "evals/files/make_scratch_repo.sh"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "amend-round",
+      "prompt": "背景：这是一个隔离的一次性 git 仓库，用来测试提交工作流。它模拟本项目的 Gerrit 约定（.gitreview + commit-msg/pre-commit hook），但没有任何可用的远端，也**没有 GitNexus 索引**（跳过 GitNexus 检查），**绝对不要 push**。\n\n准备步骤（必须先执行）：\n  bash .devin/skills/auto-commit/evals/files/make_scratch_repo.sh <你的输出目录>/scratch amend\n然后 cd 到 <你的输出目录>/scratch 再做后续操作。\n\n任务（模拟一段对话）：\n调用方（/commit-review fix --auto）已经拿到等价确认，按 `--amend --yes` 执行：把工作区里 src/sc-ampapp/ampapp_main.c 的修复 amend 进当前 HEAD（同一个 change 的新 patch set），并在消息里追加 `Review fixes:` 段（本轮是 review round 1）。不要新建 commit，不要 push。",
+      "expected_output": "HEAD 仍只有一个 commit；`git log -1 --format='%b' | grep -c '^Change-Id:'` 为 1；主题行仍是 `[NEW-FEATURE] [Mamba] Initial import of scratch fixture`；`Description:`、`Issue ID: EGS00-963`、`Merged From:` 在 amend 后仍在（没有被重新生成的消息冲掉）；`Review fixes:` 与 `- review round 1:` 位于 `Change-Id:` 之前；ampapp_main.c 的修复在提交里。",
+      "files": [
+        "evals/files/make_scratch_repo.sh"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "commit-yes",
+      "prompt": "背景：这是一个隔离的一次性 git 仓库，用来测试提交工作流。它模拟本项目的 Gerrit 约定（.gitreview + commit-msg/pre-commit hook），但没有任何可用的远端，也**没有 GitNexus 索引**（跳过 GitNexus 检查），**绝对不要 push**。\n\n准备步骤（必须先执行）：\n  bash .devin/skills/auto-commit/evals/files/make_scratch_repo.sh <你的输出目录>/scratch feature\n然后 cd 到 <你的输出目录>/scratch 再做后续操作。\n\n任务（模拟一段对话）：\n调用方已确认，本次用 `--yes` 提交：把 src/sc-ampapp/npd_range.c / npd_range.h 提交；**不要再等待用户确认**，也不要询问 JIRA（调用方已确认 N/A）。",
+      "expected_output": "在没有用户回复的情况下完成提交；在基线 commit 之外**只新增一个 commit**（`git rev-list --count HEAD` 为 2），该 commit 带 Change-Id；主题行形如 [NEW-FEATURE] [sc-ampapp] ...；未把 .gitreview 等无关文件带入。",
+      "files": [
+        "evals/files/make_scratch_repo.sh"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "amend-empty",
+      "prompt": "背景：这是一个隔离的一次性 git 仓库，用来测试提交工作流。它模拟本项目的 Gerrit 约定（.gitreview + commit-msg/pre-commit hook），但没有任何可用的远端，也**没有 GitNexus 索引**（跳过 GitNexus 检查），**绝对不要 push**。\n\n准备步骤（必须先执行）：\n  bash .devin/skills/auto-commit/evals/files/make_scratch_repo.sh <你的输出目录>/scratch clean\n然后 cd 到 <你的输出目录>/scratch 再做后续操作。\n\n任务（模拟一段对话）：\n调用方传 `--amend --yes`，要求 amend 当前 HEAD。工作区没有暂存内容时**不要重写 commit** —— 应该明确报错退出。",
+      "expected_output": "不得重写 HEAD（commit 数与 SHA 不变）。工作区干净时 skill 应在第 0 步就停下并报告「没有可提交的改动」；若直接调用 `commit.sh --amend`，则退出码 1 并打印 `--amend with nothing staged`。两条路径都不得产生新 commit。",
+      "files": [
+        "evals/files/make_scratch_repo.sh"
+      ]
+    }
+  ]
+}

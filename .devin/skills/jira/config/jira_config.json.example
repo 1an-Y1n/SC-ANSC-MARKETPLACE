@@ -1,0 +1,14 @@
+{
+    "jira_url": "https://jiraprod.sercomm.com",
+    "jira_user": "<YOUR_USER_ID>",
+    "jira_token": "<YOUR_TOKEN>",
+    "jira_auth_type": "bearer",
+    "confluence_url": "https://confluenceprod.sercomm.com",
+    "confluence_user": "<YOUR_USER_ID>",
+    "confluence_token": "<YOUR_TOKEN>",
+    "confluence_auth_type": "bearer",
+    "ssl_verify": false,
+    "timeout": 30,
+    "proxy": "",
+    "no_proxy": ""
+}

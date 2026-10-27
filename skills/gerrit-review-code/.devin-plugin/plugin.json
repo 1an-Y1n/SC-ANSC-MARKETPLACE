@@ -1,0 +1,8 @@
+{
+  "name": "gerrit-review-code",
+  "version": "1.3.2",
+  "description": "Review a Gerrit change for security, performance, correctness and maintainability via gerrit-mcp-server, then post structured comments back to the change. Designed for project-level install only (MCP server and rules resolve from the project root).",
+  "author": { "name": "Argon Cheng", "email": "argon_cheng@sercomm.com" },
+  "repository": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE",
+  "keywords": ["gerrit", "code-review"]
+}

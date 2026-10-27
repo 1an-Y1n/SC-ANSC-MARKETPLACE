@@ -1,0 +1,31 @@
+# Local Devin / MCP overrides (secrets, personal settings)
+.devin/config.local.json
+.devin/mcp_config.local.json
+
+# Local installs created by the AI setup flow (canonical files live in skills/ and config/devin/)
+.devin/skills/
+.devin/config.json
+.devin/mcp_config.json
+.devin/mcp_config.json.template
+
+# Runtime / generated files
+*.pyc
+*.pyo
+__pycache__/
+output/
+scripts/*
+# Keep the usage-metrics tooling tracked; cr_reports/ stays ignored (runtime artifacts).
+!scripts/usage_metrics.py
+!scripts/backfill_review_usage.py
+!scripts/test_changes.py
+
+# Vendored MCP workspace: only the gerrit/gitlab MCP servers and their
+# .windsurf rule files used by this project are tracked; node_modules stays untracked.
+mcp/*
+!mcp/gerrit_mcp/
+!mcp/gitlab_mcp/
+mcp/**/node_modules/
+
+# Backups
+*.db-journal
+*.db-wal

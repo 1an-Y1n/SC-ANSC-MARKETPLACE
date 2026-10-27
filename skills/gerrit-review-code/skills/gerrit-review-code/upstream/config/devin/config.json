@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__gerrit-mcp-server__*",
+      "mcp__gitlab-mcp-server__*"
+    ]
+  }
+}

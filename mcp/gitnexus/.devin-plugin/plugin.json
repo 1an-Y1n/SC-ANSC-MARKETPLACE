@@ -1,0 +1,8 @@
+{
+  "name": "gitnexus",
+  "version": "1.3.1",
+  "description": "Installer that wires GitNexus (Docker container + three wrapper scripts) into your agent as a code knowledge graph MCP server. Upstream license: PolyForm Noncommercial 1.0.0 — confirm internal compliance before use.",
+  "author": { "name": "Argon Cheng", "email": "argon_cheng@sercomm.com" },
+  "repository": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE",
+  "keywords": ["mcp", "gitnexus", "knowledge-graph", "docker"]
+}

@@ -1,0 +1,75 @@
+{
+  "skill_name": "commit-review",
+  "evals": [
+    {
+      "id": 1,
+      "name": "auto-draft-conflict",
+      "prompt": "在任意工程仓里调用 `/commit-review fix --auto draft`。不要真的提交或推送；只按 SKILL.md 的参数解析与失败处理，说明接下来会做什么。",
+      "expected_output": "识别到 --auto 与 draft 互斥，直接报错停下并让用户二选一；不进入预检/提交/审查，不产生 commit 或 push。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "auto-non-fix-ignored",
+      "prompt": "调用 `/commit-review review --auto`。不要真的提交；按 SKILL.md 的参数解析说明 --auto 会被如何处理。",
+      "expected_output": "提示「--auto 只对 fix 生效，本次忽略」，然后按 review 等级继续（预检 → 提交 → 审查），不因 --auto 改变流程。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "auto-round-loop",
+      "prompt": "模拟一次 `fix --auto`：首次确认门已通过；首轮审查返回 1 条 Medium（GR-003）；修复后测试通过、amend 成功；第二轮全量审查返回 PASS。不要真的调用 Gerrit 或推送；按 SKILL.md 第 7 步的 --auto 分支写出每一轮的判定与动作。",
+      "expected_output": "首轮 Medium → 修复 → 测试 → `--amend --yes` 推新 patch set → 全量复审；第二轮 PASS → 结束；全程不再向用户提问；不出现第 3 轮。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "auto-false-positive",
+      "prompt": "模拟一次 `fix --auto`：某轮审查返回 1 条 Medium，但分析后判定为误报（不需要改代码）。按 SKILL.md 第 7 步的 --auto 分支写出动作。不要真的调用 Gerrit 或推送。",
+      "expected_output": "跳过测试/amend/复审；不调用 /auto-commit、不产生新 patch set；在对应 inline 评论说明误报理由后结束循环；不把「无改动」当硬失败。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "auto-test-failure",
+      "prompt": "模拟一次 `fix --auto`：某轮修复后运行项目测试失败。按 SKILL.md 第 7 步的 --auto 分支写出动作。不要真的调用 Gerrit 或推送。",
+      "expected_output": "立即停下：不调用 /auto-commit、不 amend、不产生新 patch set；保留工作区改动，报告失败输出与改动清单。",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "auto-rounds-exhausted",
+      "prompt": "模拟一次 `fix --auto`：连续 3 轮都是「修复 → 测试通过 → amend → 全量复审仍 FAILED」。按 SKILL.md 第 7 步的 --auto 分支写出第 3 轮结束时的动作。不要真的调用 Gerrit 或推送。",
+      "expected_output": "第 3 轮复审后停止，不再开第 4 轮、不再 amend；报告剩余 findings 与最后一个 patch set。",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "auto-first-round-clean",
+      "prompt": "模拟一次 `fix --auto`：首次确认门已通过，首轮全量审查直接 PASS（或只有 Low）。按 SKILL.md 第 7 步的 --auto 分支写出动作。不要真的调用 Gerrit 或推送。",
+      "expected_output": "直接汇报并结束；不进入修复循环、不 amend、不产生新 patch set；Low 只报告不修。",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "auto-amend-failure",
+      "prompt": "模拟一次 `fix --auto`：某轮修复与测试都通过，但 `/auto-commit --amend --yes`（或随后的 `git review`）失败。按 SKILL.md 的 --auto 分支与失败处理写出动作。不要真的调用 Gerrit 或推送。",
+      "expected_output": "立即停下，报告原始输出；不盲目重试、不改用 `--no-verify`、不继续复审；工作区保留现场。",
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "auto-mixed-round",
+      "prompt": "模拟一次 `fix --auto` 的混合轮：审查返回 2 条 Medium，1 条真问题、1 条判为误报。按 SKILL.md 第 7 步的 --auto 分支与收尾规则写出动作。不要真的调用 Gerrit 或推送。",
+      "expected_output": "修真问题 → 测试 → `--amend --yes` 推新 patch set → 全量复审；收尾时逐条回复两条 inline 评论（已修复 / 判为误报的理由）；不因误报条停止循环。",
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "auto-no-authorization",
+      "prompt": "模拟一次 `fix --auto`：首次确认门打印的方案末尾**没有**「确认后，本次修复会自动 amend 并推送新 patch set（最多 3 轮），不再询问。」这一行。按 SKILL.md 第 3 步的规则写出动作。不要真的调用 Gerrit 或推送。",
+      "expected_output": "不进入全自动：停下并降级为默认 `fix`（每步向用户确认），把缺失授权声明的原因告诉用户；不产生自动 amend/推送。",
+      "files": []
+    }
+  ]
+}

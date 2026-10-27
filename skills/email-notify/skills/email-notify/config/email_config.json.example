@@ -1,0 +1,6 @@
+{
+    "smtp_host": "smtp.your-company.com",
+    "smtp_port": 25,
+    "from_addr": "ai-cowork@your-company.com",
+    "sender_name": "AI Cowork Kit"
+}

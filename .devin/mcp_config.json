@@ -1,0 +1,22 @@
+{
+    "mcpServers": {
+        "gerrit-mcp-server": {
+            "command": "/usr/bin/node",
+            "args": [
+                ".devin/mcp/gerrit_mcp/gerrit-mcp-server/dist/index.js"
+            ],
+            "disabled": false,
+            "env": {
+                "GERRIT_BASE_URL": "http://10.10.68.242:8081",
+                "GERRIT_USERNAME": "sdc_argon_cheng",
+                "GERRIT_PASSWORD": "<GERRIT_PASSWORD>",
+                "HTTPS_PROXY": "",
+                "HTTP_PROXY": "",
+                "NO_PROXY": "10.10.68.242",
+                "http_proxy": "",
+                "https_proxy": "",
+                "no_proxy": "10.10.68.242"
+            }
+        }
+    }
+}

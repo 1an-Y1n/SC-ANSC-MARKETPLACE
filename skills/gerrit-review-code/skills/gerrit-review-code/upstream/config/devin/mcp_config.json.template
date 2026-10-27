@@ -1,0 +1,34 @@
+{
+    "mcpServers": {
+        "gerrit-mcp-server": {
+            "args": [
+                "mcp/gerrit_mcp/gerrit-mcp-server/dist/index.js"
+            ],
+            "command": "<NODE_PATH>",
+            "disabled": false,
+            "env": {
+                "GERRIT_BASE_URL": "<GERRIT_URL>",
+                "GERRIT_USERNAME": "<GERRIT_USERNAME>",
+                "GERRIT_PASSWORD": "<GERRIT_PASSWORD>",
+                "HTTPS_PROXY": "",
+                "HTTP_PROXY": "",
+                "NO_PROXY": "<GERRIT_HOST>",
+                "http_proxy": "",
+                "https_proxy": "",
+                "no_proxy": "<GERRIT_HOST>"
+            }
+        },
+        "gitlab-mcp-server": {
+            "args": [
+                "mcp/gitlab_mcp/gitlab-mcp-server/dist/index.js"
+            ],
+            "command": "<NODE_PATH>",
+            "disabled": false,
+            "env": {
+                "GITLAB_API_URL": "http://172.21.1.202:8090",
+                "GITLAB_TOKEN": "<GITLAB_TOKEN>",
+                "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+            }
+        }
+    }
+}

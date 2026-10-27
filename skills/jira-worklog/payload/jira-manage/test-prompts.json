@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "prompt": "给 SWY00-22 加 2 小时工时",
+    "expected": "先解析 <jira_dir>；不带 --yes 运行 --add-worklog，展示 payload 与去重结果；没有重复时等用户确认后加 --yes 提交；返回 action=duplicate 时不要重试。"
+  },
+  {
+    "id": 2,
+    "prompt": "删除 SWY00-22 的 worklog 20101",
+    "expected": "先不带 --yes 运行 --delete-worklog，展示 preview 中的 author / started / timeSpent / comment 和 adjustEstimate，等用户明确确认后才加 --yes 执行。"
+  },
+  {
+    "id": 3,
+    "prompt": "把 SWY00-22 的 worklog 20101 改成 3 小时",
+    "expected": "先不带 --yes 运行 --update-worklog，展示 before/after 与 PUT 请求；确认后加 --yes 执行。只改 comment 时不需要 --yes。"
+  }
+]

@@ -1,0 +1,21 @@
+# 编辑器与系统杂物 / editor and OS cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# 临时工作目录：提交信息草稿、catalog 构建产物等 / scratch dir
+.devin/TmpWorkDir/*
+!.devin/TmpWorkDir/.gitkeep
+
+# change-note —— 本地改动说明，不进仓 / local change notes, never committed
+.devin/reviews/
+
+# Python 缓存 / python cache
+__pycache__/
+
+# gerrit-review-code（ai-toolbox）—— 个人凭据 / npm 依赖 / 运行时产物
+# gerrit-review-code (ai-toolbox) — personal credentials / npm deps / runtime artifacts
+.devin/mcp_config.local.json
+.devin/mcp/gerrit_mcp/gerrit-mcp-server/node_modules/
+.devin/scripts/cr_reports/

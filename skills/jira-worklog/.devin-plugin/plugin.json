@@ -1,0 +1,9 @@
+{
+  "name": "jira-worklog",
+  "version": "0.3.0",
+  "description": "Group Devin CLI sessions of a day by Jira issue, calibrate hours and submit worklogs (defaults to today, --date for backfill). Ships jira-manage, jira-create-worklog and jira-tag-session.",
+  "author": { "name": "Argon Cheng", "email": "argon_cheng@sercomm.com" },
+  "repository": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE",
+  "keywords": ["jira", "worklog", "devin"],
+  "skills": "payload"
+}

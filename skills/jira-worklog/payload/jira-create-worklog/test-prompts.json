@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "prompt": "生成今天的工作日志",
+    "expected": "先询问当天总工时和开始时间；随后展示绑定表（session 行 + 1-5 个工作步骤 + 候选 issue + 怎么改），等待用户回 ok；没有 ok 不进入 Step 5/6，不提交 worklog。"
+  },
+  {
+    "id": 2,
+    "prompt": "今天没有 Jira 环境，只生成一份本地工作日志",
+    "expected": "进入 --nojira：跳过 Step 1 和 Step 6，不调用 jira-manage；报告保留本地，开头注明「未启用 Jira 关联（--nojira）」。"
+  },
+  {
+    "id": 3,
+    "prompt": "绑定表第 2 行不对，改成 SWY00-22，然后继续",
+    "expected": "解析 2=SWY00-22，重新渲染绑定表并再次等待 ok；不要直接提交，也不要按步骤改判。"
+  }
+]

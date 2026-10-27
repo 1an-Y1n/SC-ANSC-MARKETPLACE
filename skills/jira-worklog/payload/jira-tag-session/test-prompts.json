@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "prompt": "把当前 session 绑到 SWY00-22",
+    "expected": "先列出/确认 issue，展示 SWY00-22 并等待用户确认；确认后运行 tag_current_session.py SWY00-22，不直接写 map。"
+  },
+  {
+    "id": 2,
+    "prompt": "我现在在做哪个 issue",
+    "expected": "列出当前 issue（KEY: title [status]），询问要绑定哪个；用户选「无」时运行 --skip。"
+  },
+  {
+    "id": 3,
+    "prompt": "这次先跳过绑定",
+    "expected": "运行 tag_current_session.py --skip，并说明 worklog 生成时仍可在绑定表里手动绑定。"
+  }
+]

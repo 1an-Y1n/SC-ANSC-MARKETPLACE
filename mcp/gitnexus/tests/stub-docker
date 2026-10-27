@@ -1,0 +1,83 @@
+#!/bin/sh
+# tests/stub-docker —— 供 test-add.sh 使用的假 docker。
+#
+# 只模拟 gitnexus-start.sh 真正用到的那几个子命令，并把每次调用追加到 $STUB_LOG。
+# 容器状态放在 $STUB_STATE 下：running(0/1) 与 mounts（最近一次 run 的 -v A:A 身份映射挂载点）。
+# 这样 `docker exec CT test -d <路径>` 就能真实地反映「路径挂没挂载」。
+#
+# 环境变量：
+#   STUB_LOG        调用日志路径（必填）
+#   STUB_STATE      状态目录（必填）
+#   STUB_INDEX_RC   gitnexus analyze 的退出码，默认 0
+
+STUB_LOG="${STUB_LOG:?STUB_LOG 未设置}"
+STUB_STATE="${STUB_STATE:?STUB_STATE 未设置}"
+
+echo "docker $*" >> "$STUB_LOG"
+
+RUNNING="$STUB_STATE/running"
+MOUNTS="$STUB_STATE/mounts"
+[ -f "$RUNNING" ] || printf '1' > "$RUNNING"
+[ -f "$MOUNTS" ] || : > "$MOUNTS"
+
+# 宿主路径在容器内是否可见：等于某个挂载点，或位于其下（子目录天然可见）
+mounted() {
+    p="$1"
+    [ -n "$p" ] || return 1
+    while IFS= read -r m; do
+        [ -n "$m" ] || continue
+        [ "$p" = "$m" ] && return 0
+        case "$p" in "$m"/*) return 0 ;; esac
+    done < "$MOUNTS"
+    return 1
+}
+
+sub="${1:-}"
+[ $# -gt 0 ] && shift
+
+case "$sub" in
+    ps)
+        [ "$(cat "$RUNNING")" = "1" ] && echo "gitnexus_$(id -un)"
+        ;;
+    stop)
+        printf '0' > "$RUNNING"
+        ;;
+    rm)
+        ;;
+    run)
+        printf '1' > "$RUNNING"
+        prev=""
+        for a in "$@"; do
+            if [ "$prev" = "-v" ]; then
+                left="${a%%:*}"
+                right="${a#*:}"
+                [ "$left" = "$right" ] && echo "$right" >> "$MOUNTS"
+            fi
+            prev="$a"
+        done
+        ;;
+    exec)
+        # 跳过 exec 的选项（-u X / -w Y 吃两个），第一个非选项即容器名
+        while [ $# -gt 0 ]; do
+            case "$1" in
+                -u|--user|-w|--workdir) shift 2 ;;
+                -*) shift ;;
+                *) shift; break ;;
+            esac
+        done
+        case "${1:-}" in
+            test)
+                [ "${2:-}" = "-d" ] && mounted "${3:-}" && exit 0
+                exit 1
+                ;;
+            gitnexus)
+                exit "${STUB_INDEX_RC:-0}"
+                ;;
+            *)
+                exit 0
+                ;;
+        esac
+        ;;
+esac
+
+exit 0

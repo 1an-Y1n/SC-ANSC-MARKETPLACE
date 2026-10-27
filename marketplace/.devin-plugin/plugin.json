@@ -1,0 +1,19 @@
+{
+  "name": "ai-toolbox",
+  "version": "1.0.0",
+  "description": "ANSC_CAS AI Toolbox as a Devin marketplace: 10 entries (7 skills, 2 MCP installers, 1 tool), all optional — install the marketplace to register the catalog, then add entries on demand.",
+  "author": { "name": "ANSC CAS", "email": "argon_cheng@sercomm.com" },
+  "keywords": ["marketplace", "sercomm", "ai-toolbox"],
+  "optionalPlugins": [
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "skills/auto-commit" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "skills/commit-review" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "skills/email-notify" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "skills/grill-pack" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "skills/jira" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "skills/jira-worklog" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "skills/gerrit-review-code" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "mcp/codegraph" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "mcp/gitnexus" },
+    { "source": "git-subdir", "url": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE.git", "path": "tools/jira-devin-bot" }
+  ]
+}

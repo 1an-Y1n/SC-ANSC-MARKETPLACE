@@ -1,0 +1,8 @@
+{
+  "name": "email-notify",
+  "version": "1.3.1",
+  "description": "Send emails via SMTP (plain text or HTML, optional CC and attachments) from the email-notify skill.",
+  "author": { "name": "Argon Cheng", "email": "argon_cheng@sercomm.com" },
+  "repository": "https://github.com/1an-Y1n/SC-ANSC-MARKETPLACE",
+  "keywords": ["smtp", "email", "notify"]
+}
